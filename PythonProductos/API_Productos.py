@@ -1,3 +1,7 @@
+# autores:
+# Andres Felipe Gutierrez
+# Alejandro...
+
 from fastapi import FastAPI
 from modulos.database import Producto, db
 from modulos.schemas import ProductoRequestModel, ProductoResponseModel
@@ -26,4 +30,4 @@ async def index():
 
 # dejar esto siempre de ultimo
 if __name__ == '__main__':
-    uvicorn.run(app, port=3000)
+    uvicorn.run("API_Productos:app", port=3000, reload=True)

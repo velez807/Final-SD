@@ -1,7 +1,7 @@
 from peewee import *
 
 # base de datos
-db = SqliteDatabase('productos.db')
+db = SqliteDatabase('./PythonProductos/modulos/productos.db')
 
 # modelo de datos
 class Producto(Model):
