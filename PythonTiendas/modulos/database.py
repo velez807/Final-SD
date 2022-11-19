@@ -1,7 +1,7 @@
 from peewee import *
 
 # base de datos
-db = SqliteDatabase('tiendas.db')
+db = SqliteDatabase('./PythonTiendas/modulos/tiendas.db')
 
 class Tienda(Model):
     codigo = CharField(primary_key=True)

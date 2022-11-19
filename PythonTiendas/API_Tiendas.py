@@ -1,3 +1,8 @@
+# autores:
+# Juan Sebastian Velez
+# Javier Jurado
+
+
 from fastapi import FastAPI, HTTPException
 from modulos.database import Tienda, db
 from modulos.schemas import TiendaRequestModel, TiendaResponseModel
@@ -61,23 +66,31 @@ async def obtener_todas_las_tiendas():
                                 direccion=tienda.direccion, 
                                 descripcion=tienda.descripcion) for tienda in tiendas]
 
+
 # actualizar
 @app.put("/tienda/{codigo}")
 async def actualizar_tienda(codigo: str, tienda: TiendaRequestModel):
     tienda = Tienda.update(
-        codigo=tienda.codigo,
         nombre=tienda.nombre,
         telefono=tienda.telefono,
         ciudad=tienda.ciudad,
         direccion=tienda.direccion,
         descripcion=tienda.descripcion
-    ).where(Tienda.codigo == codigo)
-    return HTTPException(200, 'Tienda actualizada')
-
+    ).where(Tienda.codigo == codigo).execute()
+    if tienda:
+        tienda = Tienda.select().where(Tienda.codigo == codigo).first()
+        return TiendaResponseModel(codigo=tienda.codigo, 
+                                    nombre=tienda.nombre, 
+                                    telefono=tienda.telefono, 
+                                    ciudad=tienda.ciudad, 
+                                    direccion=tienda.direccion, 
+                                    descripcion=tienda.descripcion)
+    else:
+        return HTTPException(404, 'Tienda no encontrada')
 
 #eliminar
 @app.delete("/tienda/{codigo}")
-async def obtener_tienda(codigo: str):
+async def eliminar_tienda(codigo: str):
     tienda = Tienda.select().where(Tienda.codigo == codigo).first()
     if tienda:
         tienda.delete_instance()
@@ -88,4 +101,4 @@ async def obtener_tienda(codigo: str):
 
 # dejar esto siempre de ultimo
 if __name__ == '__main__':
-    uvicorn.run(app, port=8000)
+    uvicorn.run("API_Tiendas:app", port=8000, reload=True)
