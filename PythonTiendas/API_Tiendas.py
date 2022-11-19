@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
-from database import Tienda
-from database import db
-from schemas import TiendaRequestModel, TiendaResponseModel
+from modulos.database import Tienda, db
+from modulos.schemas import TiendaRequestModel, TiendaResponseModel
+import uvicorn
 
 # instanciamos aplicacion
 app = FastAPI(title="API Tiendas", description="API para gestionar tiendas", version="1.0")
@@ -50,6 +50,17 @@ async def obtener_tienda(codigo: str):
     else:
         return HTTPException(404, 'Tienda no encontrada')
 
+# obtener todas las tiendas
+@app.get("/tiendas")
+async def obtener_todas_las_tiendas():
+    tiendas = Tienda.select()
+    return [TiendaResponseModel(codigo=tienda.codigo, 
+                                nombre=tienda.nombre, 
+                                telefono=tienda.telefono, 
+                                ciudad=tienda.ciudad, 
+                                direccion=tienda.direccion, 
+                                descripcion=tienda.descripcion) for tienda in tiendas]
+
 # actualizar
 @app.put("/tienda/{codigo}")
 async def actualizar_tienda(codigo: str, tienda: TiendaRequestModel):
@@ -64,8 +75,6 @@ async def actualizar_tienda(codigo: str, tienda: TiendaRequestModel):
     return HTTPException(200, 'Tienda actualizada')
 
 
-
-
 #eliminar
 @app.delete("/tienda/{codigo}")
 async def obtener_tienda(codigo: str):
@@ -75,3 +84,8 @@ async def obtener_tienda(codigo: str):
         return {"mensaje": "Tienda eliminada"}
     else:
         return HTTPException(404, 'Tienda no encontrada')
+
+
+# dejar esto siempre de ultimo
+if __name__ == '__main__':
+    uvicorn.run(app, port=8000)
