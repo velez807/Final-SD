@@ -1,7 +1,7 @@
 # autores:
 # Juan Sebastian Velez
-# Javier Jurado
-
+# Javier Jurado Mayorga
+#----------------------------------------------------------------------------------
 
 from fastapi import FastAPI, HTTPException
 from modulos.database import Tienda, db
@@ -12,17 +12,16 @@ import uvicorn
 app = FastAPI(title="API Tiendas", description="API para gestionar tiendas", version="1.0")
 
 
-# endpoints como decoradores
-@app.on_event("startup")
-def startup():
-    if db.is_closed():
-        db.connect()
-    
-
+# endpoints como decoradores 
 @app.on_event("shutdown")
 def shutdown():
     if not db.is_closed():
         db.close()
+        
+@app.on_event("startup")
+def startup():
+    if db.is_closed():
+        db.connect()
 
 @app.get("/")
 async def index():
@@ -65,7 +64,6 @@ async def obtener_todas_las_tiendas():
                                 ciudad=tienda.ciudad, 
                                 direccion=tienda.direccion, 
                                 descripcion=tienda.descripcion) for tienda in tiendas]
-
 
 # actualizar
 @app.put("/tienda/{codigo}")
