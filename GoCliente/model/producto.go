@@ -1,9 +1,9 @@
 package model
 
 type Producto struct {
-	Codigo      int    `json:"codigo,omitempty"`
+	Codigo      string    `json:"codigo,omitempty"`
 	Nombre      string `json:"nombre,omitempty"`
-	Precio      int    `json:"precio,omitempty"`
+	Precio      string    `json:"precio,omitempty"`
 	Descripcion string `json:"descripcion,omitempty"`
 	Tienda      string `json:"tienda,omitempty"`
 }
