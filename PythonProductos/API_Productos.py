@@ -70,8 +70,8 @@ async def actualizar_producto(codigo: int, producto: ProductoRequestModel):
 @app.get("/producto/{codigo}")
 async def obtener_producto(codigo: str):
     producto = Producto.select().where(Producto.codigo == codigo).first()
-    if tienda:
-        return TiendaResponseModel(codigo=producto.codigo, 
+    if producto:
+        return ProductoResponseModel(codigo=producto.codigo,
                                     nombre=producto.nombre,
                                     precio=producto.precio,
                                     descripcion=producto.descripcion,
