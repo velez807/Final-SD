@@ -66,8 +66,39 @@ async def actualizar_producto(codigo: int, producto: ProductoRequestModel):
         return HTTPException(404, 'Producto no encontrado')
 
 
+# obtener producto por codigo
+@app.get("/producto/{codigo}")
+async def obtener_producto(codigo: str):
+    producto = Producto.select().where(Producto.codigo == codigo).first()
+    if tienda:
+        return TiendaResponseModel(codigo=producto.codigo, 
+                                    nombre=producto.nombre,
+                                    precio=producto.precio,
+                                    descripcion=producto.descripcion,
+                                    tienda=producto.tienda)
+    else:
+        return HTTPException(404, 'Producto no encontrado')
+
+# obtener todos los productos
+@app.get("/producto")
+async def obtener_todos_los_productos():
+    productos = Producto.select()
+    return [ProductoResponseModel(codigo=producto.codigo, 
+                                    nombre=producto.nombre,
+                                    precio=producto.precio,
+                                    descripcion=producto.descripcion,
+                                    tienda=producto.tienda) for producto in productos]
 
 
+#eliminar producto por codigo
+@app.delete("/producto/{codigo}")
+async def eliminar_producto(codigo: str):
+    producto = Producto.select().where(Producto.codigo == codigo).first()
+    if producto:
+        producto.delete_instance()
+        return {"mensaje": "producto eliminado con exito"}
+    else:
+        return HTTPException(404, 'Producti no encontrado en la BD')
 
 # dejar esto siempre de ultimo
 if __name__ == '__main__':
