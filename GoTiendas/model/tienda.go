@@ -80,3 +80,41 @@ func (t Tienda) ObtenerTiendaID(id string) (Tienda, error) {
 	// retornar
 	return tiendas, nil
 }
+
+// metodo para obtener tienda por id
+func (t Tienda) DeleteTiendaID(id string) (string, error) {
+	// obtener la conexion
+	db := data.ObtenerConexion("./data/tiendas.db")
+
+	// query
+	q := `DELETE FROM tiendas WHERE codigo = ?`
+
+	// realizar la consulta
+	row := db.QueryRow(q, id)
+	var stringRet string
+	row.Scan(
+		&stringRet,
+	)
+
+	// retornar
+	return "Registro eliminado", nil
+}
+
+// metodo para obtener tienda por id
+func (t Tienda) PostTienda(tienda Tienda) (string, error) {
+	// obtener la conexion
+	db := data.ObtenerConexion("./data/tiendas.db")
+
+	// query
+	q := `INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (?, ?, ?, ?, ?, ?)`
+
+	// realizar la consulta
+	row := db.QueryRow(q, tienda.Codigo, tienda.Nombre, tienda.Telefono ,tienda.Ciudad, tienda.Direccion, tienda.Descripcion)
+	var stringRet string
+	row.Scan(
+		&stringRet,
+	)
+
+	// retornar
+	return "Registro creado", nil
+}
