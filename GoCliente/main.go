@@ -13,7 +13,7 @@ import (
 	"github.com/velez807/Final-SD/GoCliente/model"
 )
 
-//Acciones para obtener nota
+// Acciones para obtener nota
 func obtenerProductoID(idProd string, canalProductos chan *http.Response) {
 	//Instanciar un cliente HTTP
 	cliente := http.Client{}

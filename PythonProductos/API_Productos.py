@@ -1,6 +1,6 @@
 # autores:
 # Andres Felipe Gutierrez
-# Alejandro...
+# Alejandro Buitrago
 
 from fastapi import FastAPI, HTTPException
 from modulos.database import Producto, database_proxy

@@ -1,5 +1,9 @@
 package main
 
+// autores:
+// Juan Sebastián Vélez
+// Julio Alejandro Peñaloza
+
 import (
 	"fmt"
 	"log"
