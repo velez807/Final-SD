@@ -3,7 +3,7 @@
 # Alejandro...
 
 from fastapi import FastAPI, HTTPException
-from modulos.database import Producto, db
+from modulos.database import Producto, database_proxy
 from modulos.schemas import ProductoRequestModel, ProductoResponseModel
 import uvicorn
 
@@ -11,16 +11,17 @@ import uvicorn
 app = FastAPI(title="API Productos", description="API para gestionar productos", version="1.0")
 
 # endpoints como decoradores
+
 @app.on_event("startup")
 def startup():
-    if db.is_closed():
-        db.connect()
+    if database_proxy.is_closed():
+        database_proxy.connect()
     
 
 @app.on_event("shutdown")
 def shutdown():
-    if not db.is_closed():
-        db.close()
+    if not database_proxy.is_closed():
+        database_proxy.close()
 
 @app.get("/")
 async def index():

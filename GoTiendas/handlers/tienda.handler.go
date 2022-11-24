@@ -116,6 +116,7 @@ func ManejadorDeleteTiendaID(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(resp))
 
 }
+
 // manejador delete tienda por id
 func ManejadorPostTiendaID(w http.ResponseWriter, r *http.Request) {
 	// instanciar el modelo
@@ -123,11 +124,10 @@ func ManejadorPostTiendaID(w http.ResponseWriter, r *http.Request) {
 
 	// obtener el json
 	err := json.NewDecoder(r.Body).Decode(&t)
-    if err != nil {
-        log.Fatal(err)
+	if err != nil {
+		log.Fatal(err)
 		os.Exit(1)
-    }
-	
+	}
 
 	// revisar id recibido
 	fmt.Println("tienda recibida: ", *t)
@@ -151,3 +151,40 @@ func ManejadorPostTiendaID(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// manejador update tienda por id
+func ManejadorUpdateTiendaID(w http.ResponseWriter, r *http.Request) {
+	// instanciar el modelo
+	t := new(model.Tienda)
+
+	// obtener el id
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	// obtener el json
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		log.Fatal(err)
+		os.Exit(1)
+	}
+
+	// revisar id recibido
+	fmt.Println("tienda recibida: ", *t)
+
+	// realizar la consulta
+	resp, err := t.UpdateTiendaID(id, *t)
+
+	// revisar error
+	if err != nil {
+		log.Fatal("Error en la DB \n", err)
+		os.Exit(1)
+	}
+
+	// revisar respuesta
+	fmt.Println("respuesta: ", resp)
+
+	// enviar respuesta transmitiendo por http
+	w.WriteHeader(http.StatusOK)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(resp))
+
+}

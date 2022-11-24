@@ -1,6 +1,7 @@
 -- tabla de tiendas con codigo, nombre, telefono, ciudad y direccion
 CREATE TABLE tiendas (
-  codigo VARCHAR PRIMARY KEY,
+  id INT NOT NULL PRIMARY KEY,
+  codigo VARCHAR,
   nombre VARCHAR(50),
   telefono VARCHAR(20),
   ciudad VARCHAR(50),
@@ -9,11 +10,11 @@ CREATE TABLE tiendas (
 ); 
 
 -- insertar 5 tiendas diferentes en la tabla de tiendas
-INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES ('ELEC', 'Electro', '123456789', 'Pereira', 'Arboleda', 'Tienda de electronica');
-INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES ('ROPA', 'Ropa', '321459265', 'Dosquebradas', 'plaza bonita', 'Tienda de ropa');
-INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES ('ALIM', 'Alimentos', '987654321', 'Cartago', 'CC nuestro cartago', 'Tienda de alimentos');
-INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES ('JUGU', 'Juguetes', '123987456', 'La Virginia', 'Centro', 'Tienda de juguetes');
-INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES ('LIBR', 'Libreria', '456789123', 'Pereira', 'Unicentro', 'Tienda de libros');
+INSERT INTO tiendas (id, codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (1,'ELEC', 'Electro', '123456789', 'Pereira', 'Arboleda', 'Tienda de electronica');
+INSERT INTO tiendas (id, codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (2,'ROPA', 'Ropa', '321459265', 'Dosquebradas', 'plaza bonita', 'Tienda de ropa');
+INSERT INTO tiendas (id, codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (3,'ALIM', 'Alimentos', '987654321', 'Cartago', 'CC nuestro cartago', 'Tienda de alimentos');
+INSERT INTO tiendas (id, codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (4,'JUGU', 'Juguetes', '123987456', 'La Virginia', 'Centro', 'Tienda de juguetes');
+INSERT INTO tiendas (id, codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (5,'LIBR', 'Libreria', '456789123', 'Pereira', 'Unicentro', 'Tienda de libros');
 
 
 -- tabla de productos con codigo, nombre, precio, descripcion, codigo de tienda

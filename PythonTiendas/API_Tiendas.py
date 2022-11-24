@@ -4,7 +4,8 @@
 #----------------------------------------------------------------------------------
 
 from fastapi import FastAPI, HTTPException
-from modulos.database import Tienda, db
+#from modulos.database import Tienda, database_proxy
+from modulos.databaseSQL import conn, tiendas
 from modulos.schemas import TiendaRequestModel, TiendaResponseModel
 import uvicorn
 
@@ -13,19 +14,23 @@ app = FastAPI(title="API Tiendas", description="API para gestionar tiendas", ver
 
 
 # endpoints como decoradores 
-@app.on_event("shutdown")
-def shutdown():
-    if not db.is_closed():
-        db.close()
-        
-@app.on_event("startup")
-def startup():
-    if db.is_closed():
-        db.connect()
 
 @app.get("/")
 async def index():
     return {"mensaje": "Bienvenido a la API de Tiendas"}
+"""
+@app.on_event("shutdown")
+def shutdown():
+    if not database_proxy.is_closed():
+        database_proxy.close()
+        
+@app.on_event("startup")
+def startup():
+    if database_proxy.is_closed():
+        database_proxy.connect()
+
+
+
 
 #crear
 @app.post("/tienda")
@@ -95,8 +100,21 @@ async def eliminar_tienda(codigo: str):
         return {"mensaje": "Tienda eliminada"}
     else:
         return HTTPException(404, 'Tienda no encontrada')
+"""
 
+@app.get("/tiendas")
+async def obtener_todas_las_tiendas():
+    return conn.execute(tiendas.select()).fetchall()
+
+# leer
+@app.get("/tienda/{codigo}")
+async def obtener_tienda(codigo: str):
+    tienda = conn.execute(tiendas.select().where(tiendas.c.codigo == codigo)).fetchone()
+    if tienda:
+        return tienda
+    else:
+        return HTTPException(404, 'Tienda no encontrada')
 
 # dejar esto siempre de ultimo
-if __name__ == '__main__':
-    uvicorn.run("API_Tiendas:app", port=8000, reload=True)
+#if __name__ == '__main__':
+ #   uvicorn.run("API_Tiendas:app", port=8000, reload=True)

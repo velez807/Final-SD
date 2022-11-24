@@ -1,7 +1,7 @@
 from peewee import *
 
-# base de datos
-db = SqliteDatabase('./PythonTiendas/modulos/tiendas.db')
+# proxy
+database_proxy = Proxy()
 
 class Tienda(Model):
     codigo = CharField(primary_key=True)
@@ -15,5 +15,11 @@ class Tienda(Model):
         return self.nombre
 
     class Meta:
-        database = db
+        database = database_proxy
         table_name = 'tiendas'
+
+# base de datos
+db = SqliteDatabase('./PythonTiendas/modulos/tiendas.db')
+
+# conectar la base de datos
+database_proxy.initialize(db)

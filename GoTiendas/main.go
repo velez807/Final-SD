@@ -20,6 +20,7 @@ func main() {
 	router.HandleFunc("/tienda/{id}", handlers.ManejadorConsultarTiendaID).Methods("GET")
 	router.HandleFunc("/tienda/{id}", handlers.ManejadorDeleteTiendaID).Methods("DELETE")
 	router.HandleFunc("/tienda/", handlers.ManejadorPostTiendaID).Methods("POST")
+	router.HandleFunc("/tienda/{id}", handlers.ManejadorUpdateTiendaID).Methods("PUT")
 
 	fmt.Println("Servidor iniciado en el puerto 8000")
 

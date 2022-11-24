@@ -100,7 +100,7 @@ func (t Tienda) DeleteTiendaID(id string) (string, error) {
 	return "Registro eliminado", nil
 }
 
-// metodo para obtener tienda por id
+// metodo para crear tienda
 func (t Tienda) PostTienda(tienda Tienda) (string, error) {
 	// obtener la conexion
 	db := data.ObtenerConexion("./data/tiendas.db")
@@ -109,7 +109,7 @@ func (t Tienda) PostTienda(tienda Tienda) (string, error) {
 	q := `INSERT INTO tiendas (codigo, nombre, telefono, ciudad, direccion, descripcion) VALUES (?, ?, ?, ?, ?, ?)`
 
 	// realizar la consulta
-	row := db.QueryRow(q, tienda.Codigo, tienda.Nombre, tienda.Telefono ,tienda.Ciudad, tienda.Direccion, tienda.Descripcion)
+	row := db.QueryRow(q, tienda.Codigo, tienda.Nombre, tienda.Telefono, tienda.Ciudad, tienda.Direccion, tienda.Descripcion)
 	var stringRet string
 	row.Scan(
 		&stringRet,
@@ -117,4 +117,23 @@ func (t Tienda) PostTienda(tienda Tienda) (string, error) {
 
 	// retornar
 	return "Registro creado", nil
+}
+
+// metodo para actualizar tienda
+func (t Tienda) UpdateTiendaID(id string, tienda Tienda) (string, error) {
+	// obtener la conexion
+	db := data.ObtenerConexion("./data/tiendas.db")
+
+	// query
+	q := `UPDATE tiendas SET nombre = ?, telefono = ?, ciudad = ?, direccion = ?, descripcion = ? WHERE codigo = ?`
+
+	// realizar la consulta
+	row := db.QueryRow(q, tienda.Nombre, tienda.Telefono, tienda.Ciudad, tienda.Direccion, tienda.Descripcion, id)
+	var stringRet string
+	row.Scan(
+		&stringRet,
+	)
+
+	// retornar
+	return "Registro actualizado", nil
 }
